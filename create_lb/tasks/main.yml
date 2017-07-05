@@ -23,4 +23,4 @@
   register: elb_info
 
 - debug:
-    msg: "ELB: {{ elb_info }}"
+    msg: "ELB: {{ elb_info.results[0].elb.dns_name }}"
