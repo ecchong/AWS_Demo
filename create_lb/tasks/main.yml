@@ -9,6 +9,7 @@
     module: ec2_elb_lb
     name: 'demo-accounting-web-lb'
     state: present
+    region: us-east-1
     subnets:
       - '{{ vpc_subnet_id }}'
     security_group_names:
