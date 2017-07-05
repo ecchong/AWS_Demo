@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+   security_group: 'ERIC-SEC-GROUP-1'
+   vpc_subnet_id: 'subnet-bc1f0497'
+
+  roles:
+    - {role: create_instance, group_name: 'webservers', server_name: 'demo-accounting-web-001'}
+    - {role: create_instance, group_name: 'webservers', server_name: 'demo-accounting-web-002'}
+    - {role: create_lb }
+
+
+- hosts: webservers
+  become: true
+  remote_user: ec2-user
+
+  roles:
+    - {role: apache }
+

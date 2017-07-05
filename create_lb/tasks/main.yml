@@ -1,0 +1,25 @@
+---
+# tasks file for create_lb
+- debug:
+    msg: '{{ item }}'
+  with_items: '{{ instance_list }}'
+
+- name: Create load balancer
+  local_action:
+    module: ec2_elb_lb
+    name: 'demo-accounting-web-lb'
+    state: present
+    subnets:
+      - '{{ vpc_subnet_id }}'
+    security_group_names:
+      - '{{ security_group }}'
+    instance_ids: '{{ instance_list }}'
+    listeners:
+      - protocol: http # options are http, https, ssl, tcp
+        load_balancer_port: 80
+        instance_port: 80
+        proxy_protocol: True
+    register: elb_info
+
+- debug:
+    msg: "ELB: {{ elb_info }}"
