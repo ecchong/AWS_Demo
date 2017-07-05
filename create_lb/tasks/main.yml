@@ -22,5 +22,6 @@
         proxy_protocol: True
   register: elb_info
 
-- debug:
-    msg: "ELB: {{ elb_info.results[0].elb.dns_name }}"
+- name: ELB information
+  debug:
+    msg: "ELB: {{ elb_info }}"
