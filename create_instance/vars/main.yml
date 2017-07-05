@@ -9,7 +9,7 @@ aws_zone: 'b'
 # ERIC-RHEL72
 image: 'ami-43cc5854'
 keypair: 'IIS-CLOUDFORMS'
-ansible_ssh_private_key_file: /home/echong/AWS/IIS-CLOUDFORMS.pem
+#ansible_ssh_private_key_file: /home/echong/AWS/IIS-CLOUDFORMS.pem
 #security_group: 'ERIC-SEC-GROUP-1'
 #vpc_subnet_id: 'subnet-bc1f0497'
 instance_tags: '{"Name":"{{ server_name }}","Project":"DEMO","Owner":"ECHONG","Department":"{{ department }}"}'
