@@ -1,0 +1,40 @@
+---
+# This playbook terminate AWS instances with tag "ANSIBLE-DEMO"
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    instance_type: 't2.micro'
+    region: 'us-east-1'
+    aws_zone: 'b'
+    instance_tags: '{"Project":"ANSIBLE-DEMO"}'
+    elb_name: "demo-accounting-web-lb"
+
+  tasks:
+# Get facts for instances with tag Project equals ANSIBLE
+    - name: Gather facts
+      ec2_remote_facts:
+        region: "{{ region }}"
+        filters:
+          "tag:Project": ANSIBLE-DEMO
+          instance-state-name: running
+      register: ec2_facts
+      
+
+# Terminate instances found from ec2_remote_facts
+    - name: Terminate RHEL instance
+      ec2:
+        instance_type: "{{ instance_type }}"
+        instance_tags: "{{ instance_tags }}"
+        region: "{{ region }}"
+        wait: true
+        state: absent
+        instance_ids: "{{ item.id }}"
+      with_items: "{{ ec2_facts.instances }}"
+
+# Delete ELB with name "demo-accounting-web-lb"
+    - name: Delete ELB
+      ec2_elb_lb:
+        name: "{{ elb_name }}"
+        state: absent
