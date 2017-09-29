@@ -1,0 +1,15 @@
+---
+# tasks file for register_dns
+
+- name: Register Route53
+  route53:
+    command: create
+    zone: testlab.space
+    record: '{{ web_site_name }}'
+    value: '{{ lb_dns_name }}'
+    alias: true
+    alias_hosted_zone_id: '{{ lb_hosted_zone_id }}'
+    type: A
+    ttl: 7200
+    wait: yes
+    overwrite: yes

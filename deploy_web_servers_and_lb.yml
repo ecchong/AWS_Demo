@@ -5,11 +5,13 @@
   vars:
    security_group: 'ERIC-SEC-GROUP-1'
    vpc_subnet_id: 'subnet-bc1f0497'
+   web_site_name: 'eric-aws-demo.testlab.space'
 
   roles:
     - {role: create_instance, group_name: 'webservers', server_name: 'demo-accounting-web-001'}
     - {role: create_instance, group_name: 'webservers', server_name: 'demo-accounting-web-002'}
     - {role: create_lb }
+    - {role: register_dns }
 
 
 - hosts: webservers

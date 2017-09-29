@@ -10,6 +10,7 @@
     aws_zone: 'b'
     instance_tags: '{"Project":"ANSIBLE-DEMO"}'
     elb_name: "demo-accounting-web-lb"
+    web_site_name: 'eric-aws-demo.testlab.space'
 
   tasks:
 # Get facts for instances with tag Project equals ANSIBLE
@@ -38,3 +39,14 @@
       ec2_elb_lb:
         name: "{{ elb_name }}"
         state: absent
+        region: "{{ region }}"
+
+# Delete DNS entry
+    - name: Un-register Route53
+      route53:
+        command: delete
+        zone: testlab.space
+        record: '{{ web_site_name }}'
+        type: A
+        wait: yes
+        overwrite: yes
